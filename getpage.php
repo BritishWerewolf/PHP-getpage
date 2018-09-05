@@ -1,4 +1,4 @@
-function getPage($options = "", $page = null)
+function get_page($options = "", $page = null)
 {
     preg_match("/^https?/", $page, $scheme);
     $scheme = $scheme[0] ?? null;
@@ -16,7 +16,7 @@ function getPage($options = "", $page = null)
     if (in_array("b", $options)) $page = substr($page, 0, strrpos($page, ".php"));
     if (in_array("c", $options)) $page = empty(substr($page, 0, strrpos($page, "?"))) ? $page : substr($page, 0, strrpos($page, "?"));
     if (in_array("d", $options)) $page = (strpos($page, "?")) ? substr($page, strrpos($page, "?") + 1) : "";
-    if (in_array("e", $options)) $page = strpos($_SERVER["SERVER_NAME"], ".") === false ? $_SERVER["SERVER_NAME"] : substr($_SERVER["SERVER_NAME"], strpos($_SERVER["SERVER_NAME"], ".") + 1, strlen($_SERVER["SERVER_NAME"]) - strpos($_SERVER["SERVER_NAME"], ".", strpos($_SERVER["SERVER_NAME"], ".") + 1) + strpos($_SERVER["SERVER_NAME"], "."));
+    if (in_array("e", $options)) $page = strpos(parse_url($page, PHP_URL_HOST), ".") === false ? parse_url($page, PHP_URL_HOST) : substr(parse_url($page, PHP_URL_HOST), strpos(parse_url($page, PHP_URL_HOST), ".") + 1, strlen(parse_url($page, PHP_URL_HOST)) - strpos(parse_url($page, PHP_URL_HOST), ".", strpos(parse_url($page, PHP_URL_HOST), ".") + 1) + strpos(parse_url($page, PHP_URL_HOST), "."));
     if (in_array("f", $options)) $page = ($page == $self) ? "{$scheme}://{$_SERVER["SERVER_NAME"]}" : "{$scheme}://".(strpos($page, $scheme) === false ? parse_url("{$scheme}://{$page}")["host"] : parse_url($page)["host"]);
     if (in_array("g", $options)) $page = substr($page, 0, strrpos($page, "/"));
 
